@@ -9,7 +9,7 @@ public class ComplaintLoggerApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(ComplaintLoggerApplication.class, args);
-		System.out.println("Complaint Logger Application is running...");
+		System.out.println("Complaint Logger Application is running..");
 	}
 
 }
