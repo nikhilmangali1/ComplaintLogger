@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ComplaintLoggerApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(ComplaintLoggerApplication.class, args);
+		System.out.println("Complaint Logger Application is running...");
 	}
 
 }
