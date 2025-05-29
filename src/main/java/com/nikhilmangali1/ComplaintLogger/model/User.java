@@ -1,11 +1,13 @@
 package com.nikhilmangali1.ComplaintLogger.model;
 
+import com.nikhilmangali1.ComplaintLogger.model.enums.Role;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Collection;
+import java.util.Set;
 
 
 @Data
@@ -19,7 +21,7 @@ public class User {
     private String userName;
     private String email;
     private String password;
-    private String role;
+    private Set<Role> roles;
     private Collection<String> complaints;
     private String phoneNumber;
     private String address;
