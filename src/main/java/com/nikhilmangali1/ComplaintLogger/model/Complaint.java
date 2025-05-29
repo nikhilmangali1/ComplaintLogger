@@ -1,5 +1,6 @@
 package com.nikhilmangali1.ComplaintLogger.model;
 
+import com.nikhilmangali1.ComplaintLogger.model.enums.ComplaintCategory;
 import com.nikhilmangali1.ComplaintLogger.model.enums.ComplaintStatus;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -18,5 +19,5 @@ public class Complaint {
     private String userId;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-    private String category;
+    private ComplaintCategory category;
 }

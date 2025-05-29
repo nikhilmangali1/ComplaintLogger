@@ -1,6 +1,7 @@
 package com.nikhilmangali1.ComplaintLogger.controller;
 
 import com.nikhilmangali1.ComplaintLogger.model.Complaint;
+import com.nikhilmangali1.ComplaintLogger.model.enums.ComplaintCategory;
 import com.nikhilmangali1.ComplaintLogger.repository.ComplaintRepository;
 import com.nikhilmangali1.ComplaintLogger.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,13 @@ public class ComplaintController {
     @GetMapping("/all")
     public List<Complaint> getAllComplaints() {
         return complaintService.getAllComplaints();
+    }
+
+
+    // In ComplaintController.java
+    @GetMapping("/category/{category}")
+    public List<Complaint> getComplaintsByCategory(@PathVariable ComplaintCategory category) {
+        return complaintService.getComplaintsByCategory(category);
     }
 
 }

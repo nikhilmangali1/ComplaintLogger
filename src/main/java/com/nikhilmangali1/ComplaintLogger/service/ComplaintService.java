@@ -1,6 +1,8 @@
 package com.nikhilmangali1.ComplaintLogger.service;
 
 import com.nikhilmangali1.ComplaintLogger.model.Complaint;
+import com.nikhilmangali1.ComplaintLogger.model.User;
+import com.nikhilmangali1.ComplaintLogger.model.enums.ComplaintCategory;
 import com.nikhilmangali1.ComplaintLogger.model.enums.ComplaintStatus;
 import com.nikhilmangali1.ComplaintLogger.repository.ComplaintRepository;
 import com.nikhilmangali1.ComplaintLogger.repository.UserRepository;
@@ -21,12 +23,23 @@ public class ComplaintService {
 
 
     public Complaint raiseComplaint(Complaint complaint) {
-        if(userRepository.findById(complaint.getUserId()).isEmpty()){
-            throw new IllegalArgumentException("User not found");
-        }
+        User user = userRepository.findById(complaint.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+
         complaint.setStatus(ComplaintStatus.PENDING);
         complaint.setCreatedAt(java.time.LocalDate.now());
         complaint.setUpdatedAt(java.time.LocalDate.now());
+
+        Complaint savedComplaint = complaintRepository.save(complaint);
+
+        List<String> complaintIds = user.getComplaintIds();
+        if(!complaintIds.contains(savedComplaint.getId())){
+            complaintIds.add(savedComplaint.getId());
+            user.setComplaintIds(complaintIds);
+            userRepository.save(user);
+        }
+
         return complaintRepository.save(complaint);
     }
 
@@ -39,6 +52,11 @@ public class ComplaintService {
         if (existing.isEmpty()) {
             throw new IllegalArgumentException("Complaint not found");
         }
+
+        if (updatedComplaint.getCategory() == null) {
+            throw new IllegalArgumentException("Category is required");
+        }
+
         Complaint complaint = existing.get();
         complaint.setComplaintTitle(updatedComplaint.getComplaintTitle());
         complaint.setComplaintDescription(updatedComplaint.getComplaintDescription());
@@ -65,6 +83,10 @@ public class ComplaintService {
 
     public List<Complaint> getAllComplaints() {
         return complaintRepository.findAll();
+    }
+
+    public List<Complaint> getComplaintsByCategory(ComplaintCategory category) {
+        return complaintRepository.findByCategory(category);
     }
 
 
