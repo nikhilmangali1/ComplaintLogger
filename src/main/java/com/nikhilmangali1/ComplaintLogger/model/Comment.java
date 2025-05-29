@@ -1,12 +1,10 @@
 package com.nikhilmangali1.ComplaintLogger.model;
 
 import lombok.Data;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Setter
 @Document(collection = "comments")
 public class Comment {
 

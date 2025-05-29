@@ -15,15 +15,13 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(requests ->
-                        requests
-                                .requestMatchers("/auth/**").permitAll()
-                                .anyRequest().authenticated()
-                )
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
                 .csrf(AbstractHttpConfigurer::disable)
-                .build();
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()
+                );
+        return http.build();
     }
 
     @Bean

@@ -2,8 +2,6 @@ package com.nikhilmangali1.ComplaintLogger.model;
 
 import com.nikhilmangali1.ComplaintLogger.model.enums.Role;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Collection;
@@ -11,8 +9,6 @@ import java.util.Set;
 
 
 @Data
-@Getter
-@Setter
 @Document(collection = "users")
 public class User {
 
