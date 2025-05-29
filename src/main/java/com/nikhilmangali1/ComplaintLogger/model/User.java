@@ -23,8 +23,6 @@ public class User {
     private String email;
     private String password;
     private Set<Role> roles;
-    @Getter
-    @Setter
     private List<String> complaintIDs = new ArrayList<>();
     private String phoneNumber;
     private String address;
