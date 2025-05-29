@@ -5,6 +5,7 @@ import com.nikhilmangali1.ComplaintLogger.model.enums.ComplaintCategory;
 import com.nikhilmangali1.ComplaintLogger.repository.ComplaintRepository;
 import com.nikhilmangali1.ComplaintLogger.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class ComplaintController {
     @Autowired
     private ComplaintRepository complaintRepository;
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/raiseComplaint")
     public Complaint raiseComplaint(@RequestBody Complaint complaint){
         return complaintService.raiseComplaint(complaint);

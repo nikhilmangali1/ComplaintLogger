@@ -33,4 +33,8 @@ public class UserService {
     public User getUserWithComplaints(String userId) {
         return userRepository.findById(userId).orElse(null);
     }
+
+    public User getByUsername(String username) {
+        return userRepository.findByUserName(username);
+    }
 }

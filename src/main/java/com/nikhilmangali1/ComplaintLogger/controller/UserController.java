@@ -1,6 +1,7 @@
 package com.nikhilmangali1.ComplaintLogger.controller;
 
 import com.nikhilmangali1.ComplaintLogger.model.User;
+import com.nikhilmangali1.ComplaintLogger.model.enums.Role;
 import com.nikhilmangali1.ComplaintLogger.security.JwtUtil;
 import com.nikhilmangali1.ComplaintLogger.service.UserService;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -32,7 +35,11 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User user) {
         boolean authenticated = userService.authenticate(user.getUserName(), user.getPassword());
         if (authenticated) {
-            String jwt = jwtUtil.generateToken(user.getUserName());
+
+            User existingUser = userService.getByUsername(user.getUserName());
+            Set<Role> roles = existingUser.getRoles();
+
+            String jwt = jwtUtil.generateToken(user.getUserName(),roles);
             return ResponseEntity.ok(new JwtResponse(jwt));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
