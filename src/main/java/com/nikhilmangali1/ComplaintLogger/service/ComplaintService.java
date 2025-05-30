@@ -43,11 +43,21 @@ public class ComplaintService {
         return complaintRepository.save(complaint);
     }
 
-    public void deleteComplaint(String complaintId) {
+    public void deleteComplaintById(String complaintId) {
+        Complaint complaint = complaintRepository.findById(complaintId)
+                .orElseThrow(() -> new IllegalArgumentException("Complaint not found"));
+        String userId = complaint.getUserId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        user.getComplaintIds().remove(complaintId);
+        userRepository.save(user);
+
         complaintRepository.deleteById(complaintId);
     }
 
-    public Complaint updateComplaint(String complaintId,Complaint updatedComplaint) {
+    public Complaint updateComplaintById(String complaintId, Complaint updatedComplaint) {
         Optional<Complaint> existing = complaintRepository.findById(complaintId);
         if (existing.isEmpty()) {
             throw new IllegalArgumentException("Complaint not found");
@@ -65,7 +75,7 @@ public class ComplaintService {
         return complaintRepository.save(complaint);
     }
 
-    public Complaint withdrawComplaint(String complaintId) {
+    public Complaint withdrawComplaintById(String complaintId) {
         Optional<Complaint> existing = complaintRepository.findById(complaintId);
         if (existing.isEmpty()) {
             throw new IllegalArgumentException("Complaint not found");
@@ -76,7 +86,7 @@ public class ComplaintService {
         return complaintRepository.save(complaint);
     }
 
-    public Complaint getComplaint(String complaintId) {
+    public Complaint getComplaintById(String complaintId) {
         return complaintRepository.findById(complaintId)
                 .orElseThrow(() -> new IllegalArgumentException("Complaint not found"));
     }

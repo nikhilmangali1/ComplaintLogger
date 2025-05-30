@@ -8,6 +8,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -56,8 +57,16 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/withComplaints")
-    public User getUserWithComplaints(@PathVariable String userId) {
-        return userService.getUserWithComplaints(userId);
+    public ResponseEntity<?> getUserWithComplaints(@PathVariable String userId, Authentication authentication) {
+        String currentUsername = authentication.getName();
+        User currentUser = userService.getByUsername(currentUsername);
+
+        if (currentUser.getRoles().contains(Role.ADMIN) || currentUser.getId().equals(userId)) {
+            return ResponseEntity.ok(userService.getUserWithComplaints(userId));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+        }
     }
+
 
 }

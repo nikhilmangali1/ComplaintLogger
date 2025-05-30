@@ -4,6 +4,7 @@ import com.nikhilmangali1.ComplaintLogger.security.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -28,8 +29,16 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/**").permitAll()
-                        .requestMatchers("/complaints/raiseComplaint").hasAnyRole("USER","ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/user/register","/user/login").permitAll()
+
+                        .requestMatchers(HttpMethod.GET,"/user/**").hasAnyRole("USER","ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/complaints/raiseComplaint").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/complaints/deleteComplaint/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/complaints/updateComplaint/**", "/complaints/withdrawComplaint/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/complaints/getComplaint/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/complaints/all", "/complaints/category/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -26,23 +26,23 @@ public class ComplaintController {
     }
 
     @DeleteMapping("/deleteComplaint/{complaintId}")
-    public void deleteComplaint(@PathVariable String complaintId){
-        complaintService.deleteComplaint(complaintId);
+    public void deleteComplaintById(@PathVariable String complaintId){
+        complaintService.deleteComplaintById(complaintId);
     }
 
     @PutMapping("/updateComplaint/{complaintId}")
-    public Complaint updateComplaint(@PathVariable String complaintId,@RequestBody Complaint updatedComplaint) {
-        return complaintService.updateComplaint(complaintId, updatedComplaint);
+    public Complaint updateComplaintById(@PathVariable String complaintId, @RequestBody Complaint updatedComplaint) {
+        return complaintService.updateComplaintById(complaintId, updatedComplaint);
     }
 
     @PutMapping("/withdrawComplaint/{complaintId}")
-    public Complaint withdrawComplaint(@PathVariable String complaintId){
-        return complaintService.withdrawComplaint(complaintId);
+    public Complaint withdrawComplaintById(@PathVariable String complaintId){
+        return complaintService.withdrawComplaintById(complaintId);
     }
 
     @GetMapping("/getComplaint/{complaintId}")
-    public Complaint getComplaint(@PathVariable String complaintId) {
-        return complaintService.getComplaint(complaintId);
+    public Complaint getComplaintById(@PathVariable String complaintId) {
+        return complaintService.getComplaintById(complaintId);
     }
 
 
