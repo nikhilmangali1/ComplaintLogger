@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/complaints")
+@RequestMapping("/complaint")
 public class ComplaintController {
 
     @Autowired
@@ -19,7 +19,6 @@ public class ComplaintController {
     @Autowired
     private ComplaintRepository complaintRepository;
 
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/raiseComplaint")
     public Complaint raiseComplaint(@RequestBody Complaint complaint){
         return complaintService.raiseComplaint(complaint);

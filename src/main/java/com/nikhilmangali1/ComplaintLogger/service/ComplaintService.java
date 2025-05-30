@@ -100,4 +100,9 @@ public class ComplaintService {
     }
 
 
+    public List<Complaint> getComplaintsByIds(List<String> complaintIds) {
+        return complaintRepository.findAllById(complaintIds);
+    }
+
+
 }
